@@ -1,5 +1,6 @@
 package hu.ait.activitylifecycledemo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     override fun onStart() {
         super.onStart()
         Log.d("TAG_LIFE", "onStart called")
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+
         Log.d("TAG_LIFE", "onPause called")
     }
 

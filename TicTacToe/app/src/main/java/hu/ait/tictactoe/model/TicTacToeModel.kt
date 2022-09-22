@@ -1,5 +1,8 @@
 package hu.ait.tictactoe.model
 
+
+
+
 object TicTacToeModel {
     public val EMPTY: Short = 0
     public val CIRCLE: Short = 1

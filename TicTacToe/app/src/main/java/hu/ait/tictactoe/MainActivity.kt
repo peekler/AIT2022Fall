@@ -17,4 +17,13 @@ class MainActivity : AppCompatActivity() {
            binding.ticTacToe.resetGame()
         }
     }
+
+    public fun setStatusText(message: String) {
+        binding.tvStatus.text = message
+    }
+
+        public fun isFlagModeOn() : Boolean {
+            return binding.flagCheck.isChecked
+        }
+
 }

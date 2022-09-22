@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ABBFFF"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,15 +13,40 @@
         android:layout_height="wrap_content"
         android:text="Hello TicTacToe!" />
 
-    <hu.ait.tictactoe.view.TicTacToeView
-        android:id="@+id/ticTacToe"
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <hu.ait.tictactoe.view.TicTacToeView
+            android:id="@+id/ticTacToe"
+            android:layout_width="300dp"
+            android:layout_height="300dp" />
+    </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O is the next player"
+            android:textSize="28sp" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <CheckBox
+        android:id="@+id/flagCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flag mode"/>
 
     <Button
         android:id="@+id/btnReset"
-        android:text="Reset"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Reset" />
 
 </LinearLayout>
