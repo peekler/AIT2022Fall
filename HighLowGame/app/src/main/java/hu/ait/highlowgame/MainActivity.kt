@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, GameActivity::class.java)
             )
+
+            //finish()
         }
     }
 }
