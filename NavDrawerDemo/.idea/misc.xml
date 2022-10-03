@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/activity_nav_demo.xml" value="0.2902897813929842" />
+        <entry key="app/src/main/res/layout/app_bar_nav_demo.xml" value="0.2902897813929842" />
+        <entry key="app/src/main/res/layout/content_nav_demo.xml" value="0.2902897813929842" />
+        <entry key="app/src/main/res/layout/nav_header_nav_demo.xml" value="0.2902897813929842" />
+        <entry key="app/src/main/res/menu/activity_nav_demo_drawer.xml" value="0.2902897813929842" />
+        <entry key="app/src/main/res/menu/nav_demo.xml" value="0.2902897813929842" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

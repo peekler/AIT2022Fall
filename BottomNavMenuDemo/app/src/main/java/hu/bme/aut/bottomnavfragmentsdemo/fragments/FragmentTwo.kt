@@ -14,7 +14,8 @@ class FragmentTwo: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView=inflater.inflate(R.layout.fragment_two,container,false)
+        val rootView=inflater.inflate(R.layout.fragment_two,container,
+            false)
 
         return rootView
     }
