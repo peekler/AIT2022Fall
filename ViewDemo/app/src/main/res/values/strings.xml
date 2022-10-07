@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ViewDemo</string>
+
+    <string-array name="citinames">
+        <item>Budapest</item>
+        <item>Bukarest</item>
+        <item>New York</item>
+        <item>New Orleans</item>
+    </string-array>
+
+    <string-array name="fruits">
+        <item>Apple</item>
+        <item>Orange</item>
+        <item>Lemon</item>
+        <item>Banana</item>
+    </string-array>
+
+</resources>
