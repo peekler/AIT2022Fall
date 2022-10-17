@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hu.ait.todorecyclerviewdemo.data.Todo
 import hu.ait.todorecyclerviewdemo.databinding.TodoRowBinding
+import hu.ait.todorecyclerviewdemo.touch.TodoTouchHelperCallback
+import java.util.*
 
-class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder> {
+class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder>,
+    TodoTouchHelperCallback {
 
     private var todoItems = mutableListOf<Todo>(
         Todo("Demo1", "13. 10. 2022", false),
@@ -16,6 +19,7 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     )
 
     val context: Context
+
     constructor(context: Context) {
         this.context = context
     }
@@ -25,7 +29,10 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val todoRowBinding = TodoRowBinding.inflate(LayoutInflater.from(context))
+        val todoRowBinding = TodoRowBinding.inflate(
+            LayoutInflater.from(context),
+            parent, false
+        )
         return ViewHolder(todoRowBinding)
     }
 
@@ -42,10 +49,28 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         )
     }
 
+    fun deleteLast() {
+        todoItems.removeLast()
+        notifyItemRemoved(todoItems.lastIndex + 1)
+    }
+
+    private fun deleteTodo(position: Int) {
+        todoItems.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    override fun onDismissed(position: Int) {
+        deleteTodo(position)
+    }
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+        Collections.swap(todoItems, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
 
     inner class ViewHolder(private val todoRowBinding: TodoRowBinding) :
-        RecyclerView.ViewHolder(todoRowBinding.root)
-    {
+        RecyclerView.ViewHolder(todoRowBinding.root) {
         fun bind(todo: Todo) {
             todoRowBinding.cbTodoDone.text = todo.todoTitle
             todoRowBinding.cbTodoDone.isChecked = todo.isDone
