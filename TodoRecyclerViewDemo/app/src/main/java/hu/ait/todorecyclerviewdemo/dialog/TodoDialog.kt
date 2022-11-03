@@ -43,6 +43,7 @@ class TodoDialog : DialogFragment() {
 
             todoDialogHandler.todoCreated(
                 Todo(
+                    null,
                     dialogViewBinding.etTodoText.text.toString(),
                     Date(System.currentTimeMillis()).toString(),
                     dialogViewBinding.cbTodoDone.isChecked

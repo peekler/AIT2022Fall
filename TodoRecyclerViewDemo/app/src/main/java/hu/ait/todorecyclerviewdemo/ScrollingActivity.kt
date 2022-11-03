@@ -9,15 +9,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.OnClickListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import hu.ait.todorecyclerviewdemo.adapter.TodoAdapter
+import hu.ait.todorecyclerviewdemo.data.AppDatabase
 import hu.ait.todorecyclerviewdemo.data.Todo
 import hu.ait.todorecyclerviewdemo.databinding.ActivityScrollingBinding
 import hu.ait.todorecyclerviewdemo.dialog.TodoDialog
 import hu.ait.todorecyclerviewdemo.touch.TodoReyclerTouchCallback
+import hu.ait.todorecyclerviewdemo.viewmodel.TodoViewModel
+import kotlin.concurrent.thread
 
 class ScrollingActivity : AppCompatActivity(),
     TodoDialog.TodoDialogHandler {
@@ -25,28 +29,16 @@ class ScrollingActivity : AppCompatActivity(),
     private lateinit var binding: ActivityScrollingBinding
     private lateinit var adapter: TodoAdapter
 
+    private lateinit var todosViewModel: TodoViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScrollingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = TodoAdapter(this)
-        binding.recyclerTodo.adapter = adapter
+        todosViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
 
-        val touchCallbakList = TodoReyclerTouchCallback(adapter)
-        val itemTouchHelper = ItemTouchHelper(touchCallbakList)
-        itemTouchHelper.attachToRecyclerView(binding.recyclerTodo)
-
-        /*val itemDivider = DividerItemDecoration(
-            this,
-            DividerItemDecoration.VERTICAL
-        )
-        binding.recyclerTodo.addItemDecoration(itemDivider)*/
-
-        //binding.recyclerTodo.layoutManager = StaggeredGridLayoutManager(
-        //    2, StaggeredGridLayoutManager.VERTICAL)
-
-
+        initRecyclerView()
 
         setSupportActionBar(findViewById(R.id.toolbar))
         binding.toolbarLayout.title = title
@@ -57,9 +49,16 @@ class ScrollingActivity : AppCompatActivity(),
         }
     }
 
+    fun initRecyclerView() {
+        adapter = TodoAdapter(this, todosViewModel)
+        binding.recyclerTodo.adapter = adapter
+        todosViewModel.allTodos.observe(this) { todos ->
+            adapter.submitList(todos)
+        }
+    }
+
     override fun todoCreated(todo: Todo) {
-        // add this new todo to the recyclerView
-        adapter.addTodo(todo)
+        todosViewModel.insertTodo(todo)
 
         Snackbar.make(
             binding.root,

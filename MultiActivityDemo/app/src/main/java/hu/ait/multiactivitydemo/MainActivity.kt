@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult ->
+
         if (result.resultCode == Activity.RESULT_OK) {
             val resultIntent = result.data
 
@@ -48,7 +49,9 @@ class MainActivity : AppCompatActivity() {
             DataManager.myData =
                 mutableListOf<String>("333","33")
 
+
             startForResult.launch(intentDetails)
         }
     }
+
 }
