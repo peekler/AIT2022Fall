@@ -26,6 +26,11 @@ import kotlin.concurrent.thread
 class ScrollingActivity : AppCompatActivity(),
     TodoDialog.TodoDialogHandler {
 
+    companion object {
+        const val KEY_TODO_EDIT = "KEY_TODO_EDIT"
+    }
+
+
     private lateinit var binding: ActivityScrollingBinding
     private lateinit var adapter: TodoAdapter
 
@@ -47,6 +52,10 @@ class ScrollingActivity : AppCompatActivity(),
             val todoDialog = TodoDialog()
             todoDialog.show(supportFragmentManager, "TodoDialog")
         }
+
+        binding.fabDeleteAll.setOnClickListener {
+            todosViewModel.deleteAllTodos()
+        }
     }
 
     fun initRecyclerView() {
@@ -55,6 +64,16 @@ class ScrollingActivity : AppCompatActivity(),
         todosViewModel.allTodos.observe(this) { todos ->
             adapter.submitList(todos)
         }
+    }
+
+    fun showEditDialog(todoToEdit: Todo) {
+        val dialog = TodoDialog()
+
+        val bundle = Bundle()
+        bundle.putSerializable(KEY_TODO_EDIT, todoToEdit)
+        dialog.arguments = bundle
+
+        dialog.show(supportFragmentManager, "TAG_ITEM_EDIT")
     }
 
     override fun todoCreated(todo: Todo) {
@@ -70,6 +89,10 @@ class ScrollingActivity : AppCompatActivity(),
             // remove last todo from RecyclerView..
             adapter.deleteLast()
         }.show()
+    }
+
+    override fun todoUpdated(todo: Todo) {
+        todosViewModel.updateTodo(todo)
     }
 
 }

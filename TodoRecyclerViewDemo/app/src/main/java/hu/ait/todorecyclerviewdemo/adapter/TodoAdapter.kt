@@ -38,15 +38,26 @@ class TodoAdapter(
 
 
     fun deleteLast() {
-        //
+        val lastTodo = getItem(currentList.lastIndex)
+        todosViewModel.deleteTodo(lastTodo)
     }
 
     inner class ViewHolder(private val todoRowBinding: TodoRowBinding) :
         RecyclerView.ViewHolder(todoRowBinding.root) {
+
         fun bind(todo: Todo) {
             todoRowBinding.cbTodoDone.text = todo.todoTitle
             todoRowBinding.cbTodoDone.isChecked = todo.isDone
             todoRowBinding.tvTodoDate.text = todo.createDate
+
+            todoRowBinding.btnDelete.setOnClickListener {
+                todosViewModel.deleteTodo(todo)
+            }
+
+            todoRowBinding.btnEdit.setOnClickListener {
+                (context as ScrollingActivity).
+                    showEditDialog(todo)
+            }
         }
     }
 }

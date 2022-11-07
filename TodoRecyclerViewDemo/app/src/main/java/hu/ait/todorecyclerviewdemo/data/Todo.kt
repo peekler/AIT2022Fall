@@ -9,6 +9,6 @@ data class Todo(
     @PrimaryKey(autoGenerate = true) var _todoId: Long?,
     @ColumnInfo(name = "todotitle") var todoTitle: String,
     @ColumnInfo(name = "createdate") var createDate: String,
-    @ColumnInfo(name = "isdone") var isDone: Boolean) {
+    @ColumnInfo(name = "isdone") var isDone: Boolean) : java.io.Serializable {
 }
 

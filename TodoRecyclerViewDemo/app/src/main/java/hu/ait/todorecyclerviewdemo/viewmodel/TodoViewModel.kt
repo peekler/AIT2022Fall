@@ -26,4 +26,22 @@ class TodoViewModel(application: Application) :
             todoDAO.addTodo(todo)
         }.start()
     }
+
+    fun deleteTodo(todo: Todo)  {
+        Thread {
+            todoDAO.deleteTodo(todo)
+        }.start()
+    }
+
+    fun deleteAllTodos()  {
+        Thread {
+            todoDAO.deleteAllTodos()
+        }.start()
+    }
+
+    fun updateTodo(todo: Todo) {
+        Thread {
+            todoDAO.updateTodo(todo)
+        }.start()
+    }
 }

@@ -5,7 +5,9 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
+// DAO : Data Access Object
 @Dao
 interface TodoDAO {
 
@@ -17,4 +19,10 @@ interface TodoDAO {
 
     @Delete
     fun deleteTodo(todo: Todo)
+
+    @Query("DELETE FROM todo")
+    fun deleteAllTodos()
+
+    @Update
+    fun updateTodo(todo: Todo)
 }
