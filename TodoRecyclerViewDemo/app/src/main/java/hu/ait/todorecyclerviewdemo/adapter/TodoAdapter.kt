@@ -18,10 +18,8 @@ import java.util.*
 class TodoAdapter(
     private val context: Context,
     private val todosViewModel: TodoViewModel
-) : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()) {
-
-
-
+) : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()),
+    TodoTouchHelperCallback{
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val todoRowBinding = TodoRowBinding.inflate(
@@ -42,6 +40,19 @@ class TodoAdapter(
         todosViewModel.deleteTodo(lastTodo)
     }
 
+
+    override fun onDismissed(position: Int) {
+        todosViewModel.deleteTodo(getItem(position))
+    }
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+        val tmpList = mutableListOf<Todo>()
+        tmpList.addAll(currentList)
+        Collections.swap(tmpList, fromPosition, toPosition)
+
+        submitList(tmpList)
+    }
+
     inner class ViewHolder(private val todoRowBinding: TodoRowBinding) :
         RecyclerView.ViewHolder(todoRowBinding.root) {
 
@@ -57,6 +68,11 @@ class TodoAdapter(
             todoRowBinding.btnEdit.setOnClickListener {
                 (context as ScrollingActivity).
                     showEditDialog(todo)
+            }
+
+            todoRowBinding.cbTodoDone.setOnClickListener {
+                todo.isDone = todoRowBinding.cbTodoDone.isChecked
+                todosViewModel.updateTodo(todo)
             }
         }
     }

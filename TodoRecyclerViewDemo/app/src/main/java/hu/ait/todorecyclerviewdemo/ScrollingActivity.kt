@@ -21,6 +21,7 @@ import hu.ait.todorecyclerviewdemo.databinding.ActivityScrollingBinding
 import hu.ait.todorecyclerviewdemo.dialog.TodoDialog
 import hu.ait.todorecyclerviewdemo.touch.TodoReyclerTouchCallback
 import hu.ait.todorecyclerviewdemo.viewmodel.TodoViewModel
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import kotlin.concurrent.thread
 
 class ScrollingActivity : AppCompatActivity(),
@@ -28,6 +29,8 @@ class ScrollingActivity : AppCompatActivity(),
 
     companion object {
         const val KEY_TODO_EDIT = "KEY_TODO_EDIT"
+        const val PREF_SETTINGS = "SETTINGS"
+        const val KEY_FIRST_START = "KEY_FIRST_START"
     }
 
 
@@ -56,11 +59,40 @@ class ScrollingActivity : AppCompatActivity(),
         binding.fabDeleteAll.setOnClickListener {
             todosViewModel.deleteAllTodos()
         }
+
+        if (isItFirstStart()) {
+            MaterialTapTargetPrompt.Builder(this)
+                .setPrimaryText("Create item")
+                .setSecondaryText("Click here to create new todo")
+                .setTarget(binding.fabAddItem)
+                .show()
+
+            saveAppWasStarted()
+        }
     }
+
+    fun saveAppWasStarted() {
+        val sp =getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
+        val editor = sp.edit()
+        editor.putBoolean(KEY_FIRST_START, false)
+        editor.commit()
+    }
+
+    fun isItFirstStart() : Boolean {
+        val sp =getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
+        return sp.getBoolean(KEY_FIRST_START, true)
+    }
+
+
 
     fun initRecyclerView() {
         adapter = TodoAdapter(this, todosViewModel)
         binding.recyclerTodo.adapter = adapter
+
+        val callback: ItemTouchHelper.Callback = TodoReyclerTouchCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(binding.recyclerTodo)
+
         todosViewModel.allTodos.observe(this) { todos ->
             adapter.submitList(todos)
         }
