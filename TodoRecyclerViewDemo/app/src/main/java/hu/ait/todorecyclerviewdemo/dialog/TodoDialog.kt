@@ -16,7 +16,6 @@ class TodoDialog : DialogFragment() {
         public fun todoCreated(todo: Todo)
 
         public fun todoUpdated(todo: Todo)
-
     }
 
     lateinit var todoDialogHandler: TodoDialogHandler
@@ -28,19 +27,24 @@ class TodoDialog : DialogFragment() {
             todoDialogHandler = context
         } else {
             throw java.lang.RuntimeException(
-                "The activity does not implement the TodoHandler interface")
+                "The activity does not implement the TodoHandler interface"
+            )
         }
     }
 
 
     private var isEditMode = false
 
+    private lateinit var dialogViewBinding: TodoDialogBinding
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         // Are we in edit mode? - Have we received a Todo object to edit?
         if (arguments != null && requireArguments().containsKey(
-                ScrollingActivity.KEY_TODO_EDIT)) {
+                ScrollingActivity.KEY_TODO_EDIT
+            )
+        ) {
             isEditMode = true
             dialogBuilder.setTitle("Edit Todo")
         } else {
@@ -48,53 +52,76 @@ class TodoDialog : DialogFragment() {
             dialogBuilder.setTitle("New Todo")
         }
 
-
-        val dialogViewBinding = TodoDialogBinding.inflate(
-            requireActivity().layoutInflater)
+        dialogViewBinding = TodoDialogBinding.inflate(
+            requireActivity().layoutInflater
+        )
         dialogBuilder.setView(dialogViewBinding.root)
 
         // pre-fill the dialog if we are in edit mode
         if (isEditMode) {
             val todoToEdit =
                 requireArguments().getSerializable(
-                    ScrollingActivity.KEY_TODO_EDIT) as Todo
+                    ScrollingActivity.KEY_TODO_EDIT
+                ) as Todo
 
             dialogViewBinding.etTodoText.setText(todoToEdit.todoTitle)
             dialogViewBinding.cbTodoDone.isChecked = todoToEdit.isDone
         }
 
 
-        dialogBuilder.setPositiveButton("Ok") {
-                dialog, which ->
-
-            if (isEditMode) {
-                val todoToEdit =
-                    (requireArguments().getSerializable(
-                        ScrollingActivity.KEY_TODO_EDIT
-                    ) as Todo).copy(
-                        todoTitle = dialogViewBinding.etTodoText.text.toString(),
-                        isDone = dialogViewBinding.cbTodoDone.isChecked
-                    )
-
-                todoDialogHandler.todoUpdated(todoToEdit)
-            } else {
-                todoDialogHandler.todoCreated(
-                    Todo(
-                        null,
-                        dialogViewBinding.etTodoText.text.toString(),
-                        Date(System.currentTimeMillis()).toString(),
-                        dialogViewBinding.cbTodoDone.isChecked
-                    )
-                )
-            }
+        dialogBuilder.setPositiveButton("Ok") { dialog, which ->
+            //
         }
-        dialogBuilder.setNegativeButton("Cancel") {
-                dialog, which ->
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which ->
         }
 
 
         return dialogBuilder.create()
     }
 
+
+    override fun onResume() {
+        super.onResume()
+
+        val dialog = dialog as AlertDialog
+        val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
+
+        positiveButton.setOnClickListener {
+            if (dialogViewBinding.etTodoText.text.isNotEmpty()) {
+                if (isEditMode) {
+                    handleItemEdit()
+                } else {
+                    handleItemCreate()
+                }
+
+                dialog.dismiss()
+            } else {
+                dialogViewBinding.etTodoText.error = "This field can not be empty"
+            }
+        }
+    }
+
+
+    fun handleItemCreate() {
+        todoDialogHandler.todoCreated(
+            Todo(
+                null,
+                dialogViewBinding.etTodoText.text.toString(),
+                Date(System.currentTimeMillis()).toString(),
+                dialogViewBinding.cbTodoDone.isChecked
+            )
+        )
+    }
+
+    fun handleItemEdit() {
+        val todoToEdit =
+            (requireArguments().getSerializable(
+                ScrollingActivity.KEY_TODO_EDIT
+            ) as Todo).copy(
+                todoTitle = dialogViewBinding.etTodoText.text.toString(),
+                isDone = dialogViewBinding.cbTodoDone.isChecked
+            )
+        todoDialogHandler.todoUpdated(todoToEdit)
+    }
 
 }

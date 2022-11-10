@@ -40,7 +40,9 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.btnAnim.setOnClickListener {
-            binding.btnAnim.startAnimation(demoAnim)
+            //binding.btnAnim.startAnimation(demoAnim)
+
+            binding.root.startAnimation(demoAnim)
         }
     }
 }

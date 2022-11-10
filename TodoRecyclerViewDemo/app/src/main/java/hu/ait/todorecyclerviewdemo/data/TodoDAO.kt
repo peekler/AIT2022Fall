@@ -14,6 +14,9 @@ interface TodoDAO {
     @Query("SELECT * FROM todo")
     fun getAllTodo() : LiveData<List<Todo>>
 
+    @Query("SELECT * FROM todo WHERE todotitle LIKE '%' || :text || '%'")
+    fun findTodos(text: String) : LiveData<List<Todo>>
+
     @Insert
     fun addTodo(todo: Todo)
 

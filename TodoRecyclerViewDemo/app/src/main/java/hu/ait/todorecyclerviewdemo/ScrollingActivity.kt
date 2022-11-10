@@ -9,6 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.OnClickListener
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -71,18 +73,46 @@ class ScrollingActivity : AppCompatActivity(),
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_scrolling, menu)
+
+        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+        val searchView: SearchView? =
+            searchItem?.actionView as SearchView
+
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                AppDatabase.getInstance(this@ScrollingActivity).todoDao().findTodos(newText!!)
+                    .observe(
+                        this@ScrollingActivity, Observer { items ->
+                            adapter.submitList(items)
+                        })
+
+                return true
+            }
+        })
+
+
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
     fun saveAppWasStarted() {
-        val sp =getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
+        val sp = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
         val editor = sp.edit()
         editor.putBoolean(KEY_FIRST_START, false)
         editor.commit()
     }
 
-    fun isItFirstStart() : Boolean {
-        val sp =getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
+    fun isItFirstStart(): Boolean {
+        val sp = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE)
         return sp.getBoolean(KEY_FIRST_START, true)
     }
-
 
 
     fun initRecyclerView() {
