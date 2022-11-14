@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "930057737699",
+    "project_id": "ait-forum-fall-demo",
+    "storage_bucket": "ait-forum-fall-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930057737699:android:4a3fb0b04652526bcafcd6",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.aitforumdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930057737699-s1itsljbhb9anmj1vk391ijibvvho8i2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAek9oQ9WVcPAeYEokeM0y--66nk_xXypo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930057737699-s1itsljbhb9anmj1vk391ijibvvho8i2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
