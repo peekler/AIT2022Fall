@@ -23,6 +23,20 @@
         android:scrollHorizontally="false" />
 
 
+
+    <ImageView
+        android:id="@+id/imgAttach"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnAttach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attach"/>
+
     <Button
         android:id="@+id/btnSend"
         android:layout_width="wrap_content"

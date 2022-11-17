@@ -51,6 +51,8 @@ class ScrollingActivity : AppCompatActivity(),
         initRecyclerView()
 
         setSupportActionBar(findViewById(R.id.toolbar))
+
+
         binding.toolbarLayout.title = title
 
         binding.fabAddItem.setOnClickListener { view ->
@@ -95,9 +97,6 @@ class ScrollingActivity : AppCompatActivity(),
                 return true
             }
         })
-
-
-
         return super.onCreateOptionsMenu(menu)
     }
 
