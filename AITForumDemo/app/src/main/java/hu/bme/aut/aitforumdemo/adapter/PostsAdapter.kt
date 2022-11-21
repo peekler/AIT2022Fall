@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import hu.bme.aut.aitforumdemo.CreatePostActivity
 import hu.bme.aut.aitforumdemo.data.Post
@@ -87,6 +88,15 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.ViewHolder> {
                 ).document(
                     postKeys[adapterPosition]
                 ).delete()
+            }
+
+            if (post.imgUrl != "") {
+                binding.ivPhoto.visibility = View.VISIBLE
+
+                Glide.with(context).load(post.imgUrl).into(
+                    binding.ivPhoto)
+            } else {
+                binding.ivPhoto.visibility = View.GONE
             }
 
         }
