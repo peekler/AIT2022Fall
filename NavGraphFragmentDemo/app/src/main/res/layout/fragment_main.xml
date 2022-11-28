@@ -10,12 +10,12 @@
     <EditText
         android:id="@+id/etItemName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:hint="Enter item name here" />
     <EditText
         android:id="@+id/etItemPrice"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="Enter price here" />
 
@@ -23,6 +23,6 @@
         android:id="@+id/btnSend"
         android:text="Send"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

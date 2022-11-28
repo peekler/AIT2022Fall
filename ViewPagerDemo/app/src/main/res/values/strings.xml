@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ViewPagerDemo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="tab_names">
+        <item>Page one</item>
+        <item>Page two</item>
+    </string-array>
+</resources>

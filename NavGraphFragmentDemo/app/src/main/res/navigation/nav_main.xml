@@ -4,17 +4,26 @@
     xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
     app:startDestination="@id/mainFragment">
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="hu.bme.aut.navgraphfragmentdemo.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment2"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/detailsFragment"
         android:name="hu.bme.aut.navgraphfragmentdemo.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="shopItem"
+            app:argType="hu.bme.aut.navgraphfragmentdemo.Item" />
+    </fragment>
 
 
 </navigation>

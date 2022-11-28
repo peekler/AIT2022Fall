@@ -1,0 +1,104 @@
+package hu.ait.mapdemo
+
+import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
+
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolygonOptions
+import hu.ait.mapdemo.databinding.ActivityMapsBinding
+
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var mMap: GoogleMap
+    private lateinit var binding: ActivityMapsBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMapsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        binding.toggleMapMode.setOnClickListener {
+            if (binding.toggleMapMode.isChecked) {
+                mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            } else {
+                mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            }
+        }
+        mMap.isTrafficEnabled = true
+
+
+        val hungary = LatLng(47.0, 19.0)
+        mMap.addMarker(
+            MarkerOptions().position(hungary).title(
+                "Marker in Hungary"
+            )
+        )
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(hungary))
+
+
+        mMap.setOnMapClickListener {
+            val newMarker = mMap.addMarker(
+                MarkerOptions().position(it)
+                    .title("Demo marker")
+                    .snippet(
+                        """
+                        Location: ${it.latitude}, ${it.longitude}
+                    """.trimIndent()
+                    )
+            )
+            newMarker?.isDraggable = true
+        }
+
+        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+            override fun onMarkerClick(marker: Marker): Boolean {
+                Toast.makeText(
+                    this@MapsActivity,
+                    "${marker.position.latitude}," +
+                            " ${marker.position.longitude}",
+                    Toast.LENGTH_LONG
+                ).show()
+                return true
+            }
+        })
+
+        val polyRect: PolygonOptions = PolygonOptions().add(
+            LatLng(44.0, 19.0),
+            LatLng(44.0, 26.0),
+            LatLng(48.0, 26.0),
+            LatLng(48.0, 19.0))
+        val poly = mMap.addPolygon(polyRect)
+        poly.fillColor = Color.argb(
+            100, 0,255,0
+        )
+
+
+
+    }
+}
