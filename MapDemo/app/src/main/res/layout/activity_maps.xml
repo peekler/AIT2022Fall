@@ -20,4 +20,10 @@
         android:textOn="Normal"
         android:textOff="Satellite"/>
 
+    <TextView
+        android:id="@+id/tvData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"/>
+
 </LinearLayout>
