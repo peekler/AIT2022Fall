@@ -47,7 +47,6 @@ class ScrollingActivity : AppCompatActivity() {
             CreatePostActivity.COLLECTION_POSTS
         )
 
-
         val eventListener = object : EventListener<QuerySnapshot> {
             override fun onEvent(querySnapshot: QuerySnapshot?,
                                  e: FirebaseFirestoreException?) {

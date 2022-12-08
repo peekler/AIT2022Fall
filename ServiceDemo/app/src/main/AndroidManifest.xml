@@ -20,6 +20,8 @@
         </activity>
 
         <service android:name=".MyTimeService"/>
+
+
     </application>
 
 </manifest>
